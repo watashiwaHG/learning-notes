@@ -574,7 +574,7 @@ ReentrantReadWriteLock依然是可重入锁
 
 #### 写锁加锁流程概述
 
-![](E:\转正\学习\study note\重学\pic\juc\ReentrantReadWriteLock写锁获取流程.jpg)
+![](./pic/juc/ReentrantReadWriteLock写锁获取流程.jpg)
 
 写锁的加锁流程:
 
@@ -595,7 +595,7 @@ ReentrantReadWriteLock依然是可重入锁
 
 #### 读锁加锁流程概述
 
-![](E:\转正\学习\study note\重学\pic\juc\ReentrantReadWriteLock读锁获取流程.jpg)
+![](./pic/juc/ReentrantReadWriteLock读锁获取流程.jpg)
 
 读锁加锁流程：
 
@@ -673,7 +673,7 @@ mysql中修改某一条数据时会上行锁，所以一万个请求修改需要
 
 创建一个阻塞队列，存放每个请求的请求参数和CompletableFuture返回结果，创建一个定时线程池Executors.newScheduledThreadPool(1)，每10ms从阻塞队列中拉取1000个请求丢给后端服务器处理，后端服务器将这1000个请求进行合并分类并执行，返回的结果再放入阻塞队列中对应请求的CompletableFuture结果中
 
-![](E:\转正\学习\study note\重学\pic\juc\批量接口.jpg)
+![](./pic/juc/批量接口.jpg)
 
 ### 2.同一个请求因为网络原因导致发送了多次，多次修改mysql
 
