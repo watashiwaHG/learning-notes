@@ -168,7 +168,7 @@ InnoDB的页和操作系统的页大小不一致，InnoDB页大小一般为16KB�
 
 如果存储引擎正在写入页的数据到磁盘时发声了宕机，可能出现页只写了一部分的情况，比如只写了4K，就宕机了，这种情况叫做部分写失效（partial page write），可能会导致数据丢失
 
-![](.\pic\mysql\写失效.jpg)
+![](./pic/mysql/写失效.jpg)
 
 ## 双写缓冲区 Doublewrite Buffer
 
@@ -184,7 +184,7 @@ show variables like '%innodb_doublewrite%';
 
 数据双写流程
 
-![](.\pic\mysql\双写流程.jpg)
+![](./pic/mysql/双写流程.jpg)
 
 - 共享表空间：连续磁盘空间，写入快
 
@@ -204,7 +204,7 @@ InnoDB规定一页至少存储两条记录（B+树特点），如果页中只能
 
 当发生行溢出时，数据页只保存了前768字节的前缀数据，接着是20个字节的偏移量，指向行溢出页
 
-![](.\pic\mysql\compact行溢出.jpg)
+![](./pic/mysql/compact行溢出.jpg)
 
 # JOIN优化
 
@@ -246,7 +246,7 @@ InnoDB规定一页至少存储两条记录（B+树特点），如果页中只能
 
    - 匹配过程如下图：
 
-     ![](.\pic\mysql\join连表.jpg)
+     ![](./pic/mysql/join连表.jpg)
 
    - SNL的特点
 
@@ -264,7 +264,7 @@ InnoDB规定一页至少存储两条记录（B+树特点），如果页中只能
 
    - 当order表的user_id为索引的时候执行过程会如下图：
 
-     ![](.\pic\mysql\索引join连接.jpg)
+     ![](./pic/mysql/索引join连接.jpg)
 
    注意：使用Index Nested-Loop Join算法的前提是匹配的字段必须建立了索引
 
@@ -274,7 +274,7 @@ InnoDB规定一页至少存储两条记录（B+树特点），如果页中只能
 
    因为不存在索引了，所以被驱动表需要进行扫描。这里Mysql并不会简单粗暴的应用SNL算法，而是加入了buffer缓冲区，降低了内循环的个数，也就是被驱动表的扫描次数
 
-   ![](.\pic\mysql\缓冲join连接.jpg)
+   ![](./pic/mysql/缓冲join连接.jpg)
 
    - 在外层循环扫描user表中的所有记录。扫描的时候，会把需要进行join用到的列都缓存到buffer中。buffer中的数据有一个特点，里面的记录不需要一条一条地取出来和order表进行比较，而是整个buffer和order表进行批量比较
    - 如果我们把buffer空间开得很大，可以容纳下user表的所有记录，那么order表也只需要访问一次
@@ -326,7 +326,7 @@ InnoDB规定一页至少存储两条记录（B+树特点），如果页中只能
 
 InnoDB存储引擎提供了两种事务日志：redo log（重做日志）和undo log（回滚日志）。其中redo log用于保证事务持久性，undo log则是事务的原子性和隔离性实现的基础
 
-![](.\pic\mysql\redo log和undo log.png)
+![](./pic/mysql/redo log和undo log.png)
 
 每写一个事务，都会修改Buffer Pool，从而产生相应的Redo/Undo日志：
 
@@ -365,7 +365,7 @@ Mysql事务的持久性保证依赖的日志文件：redo log
 - redo log也包括两部分：一是内存中的日志缓存（redo log buffer），该部分日志是易失性的；二是磁盘上的重做日志（redo log file），该部分日志是持久的，redo log是物理日志，记录的是数据库中物理页的情况
 - 当数据发生修改时，InnoDB不仅会修改Buffer Pool中的数据，也会在redo log buffer记录这次操作，当事务提交时，会对redo log buffer进行刷盘，记录到redo log file中。如果Mysql宕机，重启时可以读取redo log file中的数据，对数据库进行恢复。这样就不需要每次提交事务都实时进行刷脏了
 
-![](.\pic\mysql\原子性.jpg)
+![](./pic/mysql/原子性.jpg)
 
 ## ACID总结
 
@@ -390,7 +390,7 @@ Mysql事务的持久性保证依赖的日志文件：redo log
 - trx_id：事务id，记录最近一次更新这条数据的事务id
 - roll_pointer：回滚指针，指向之前生成的undo log
 
-![](.\pic\mysql\多版本链.jpg)
+![](./pic/mysql/多版本链.jpg)
 
 每一条数据都有多个版本，版本之间通过undo log链条进行连接通过这样的设计方式，可以保证每个事务提交的时候，一旦需要回滚操作，可以保证同一个事务只能读取到比当前版本更早提交的值，不能看到更晚提交的值
 
@@ -411,7 +411,7 @@ Read View中比较重要的字段有4个：
 
 ### Read view判断记录某个版本是否可见的规则如下
 
-![](.\pic\mysql\read-view的min_id和max_id.png)
+![](./pic/mysql/read-view的min_id和max_id.png)
 
 1. 如果当前记录的事务id落在绿色部分（trx_id < min_id），表示这个版本是已提交的事务生成的，可读
 2. 如果当前记录的事务id落在红色部分（trx_id > max_id），表示这个版本是由将来启动的事务生成的，不可读
@@ -456,7 +456,7 @@ RC和RR隔离级别都是由MVCC实现，区别在于：
 
 假设select * from where value = 1 for update，只在这一行加锁（注意这只是个假设），其他行不加锁，那么就会出现如下场景：
 
-![](.\pic\mysql\幻读例子.png)
+![](./pic/mysql/幻读例子.png)
 
 其中Q3读到value=1这一行的现象，就称之为幻读，**幻读指的是一个事务在前后两次查询同一个范围的时候，后一次查询看到了前一次查询没有看到的行**
 
@@ -472,7 +472,7 @@ RC和RR隔离级别都是由MVCC实现，区别在于：
 - GapLock锁：间隙锁，锁定索引记录间隙（不包括记录本身），确保索引记录的间隙不变。（范围锁，RR隔离级别支持）
 - Next-key Lock锁：记录锁和间隙锁组合，同时锁住数据，并且锁住数据前后范围（记录锁+范围锁，RR隔离级别支持）
 
-![](.\pic\mysql\Next-key lock.jpg)
+![](./pic/mysql/Next-key lock.jpg)
 
 ## 总结
 
