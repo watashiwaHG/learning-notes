@@ -74,19 +74,19 @@ InnoDB行锁是通过对索引数据页上的记录加锁实现的，主要实�
 
 主键行锁
 
-![](.\pic\mysql\行锁例1.jpg)
+![](./pic/mysql/行锁例1.jpg)
 
 唯一键行锁
 
-![](.\pic\mysql\行锁例2.jpg)
+![](./pic/mysql/行锁例2.jpg)
 
 非唯一键行锁
 
-![](.\pic\mysql\行锁例3.jpg)
+![](./pic/mysql/行锁例3.jpg)
 
 无索引行锁
 
-![](.\pic\mysql\行锁例4.jpg)
+![](./pic/mysql/行锁例4.jpg)
 
 # 并发事务会产生哪些问题
 
@@ -113,7 +113,7 @@ InnoDB行锁是通过对索引数据页上的记录加锁实现的，主要实�
 
 “更新丢失”、“脏读”、“不可重复读”和“幻读”等并发事务问题，其实都是数据库一致性问题，为了解决这些问题，Mysql数据库是通过事务隔离级别来解决的，数据库系统提供了以下4中事务隔离级别供用户选择
 
-![](.\pic\mysql\事务隔离级别.jpg)
+![](./pic/mysql/事务隔离级别.jpg)
 
 可重复读能解决幻读问题，快照读通过MVCC，当前读通过加间隙锁和行锁解决，但如果先快照读再当前读还是会出现幻读
 
@@ -143,7 +143,7 @@ MVCC（Multi Version Concurrent Control）被称为多版本并发控制，是�
 
 1. 行记录的三个隐藏字段
 
-   ![](.\pic\mysql\行记录的三个隐藏字段.jpg)
+   ![](./pic/mysql/行记录的三个隐藏字段.jpg)
 
    - DB_ROW_ID：如果没有为表显式的定义主键，并且表中也没有定义唯一索引，那么InnoDB会自动为表添加一个row_id的隐藏列作为主键
    - DB_TRX_ID：事务中对某条记录做增删改时，就会将这个事务的事务ID写入到trx_id中
@@ -153,11 +153,11 @@ MVCC（Multi Version Concurrent Control）被称为多版本并发控制，是�
 
    举例：事务T-100和T-120对表中id = 1的数据行做update操作，事务T-130进行select操作，即使T-100已经提交修改，三次select语句的结果都是“lisi”
 
-   ![](.\pic\mysql\uodo log例子.jpg)
+   ![](./pic/mysql/uodo log例子.jpg)
 
    - 每一条数据都有多个版本，版本之间通过undo log链条进行连接
 
-   ![](.\pic\mysql\undo log例子2.jpg)
+   ![](./pic/mysql/undo log例子2.jpg)
 
 3. Read View
 
@@ -251,7 +251,7 @@ sql语句中不要使用太复杂的关联多表的查询；使用explain执行�
 
 - 两个事务分别向拿到对方持有的锁，互相等待，于是产生死锁
 
-  ![](.\pic\mysql\行锁死锁例1.jpg)
+  ![](./pic/mysql/行锁死锁例1.jpg)
 
 ### 产生原因3：
 
@@ -259,7 +259,7 @@ sql语句中不要使用太复杂的关联多表的查询；使用explain执行�
 
 两个事务操作不同的索引列，最后都去锁主键索引，加锁时发现事务一和事务二的加锁顺序正好相反，两个session恰好都持有第一把锁，请求加第二把锁，死锁就发生了
 
-![](.\pic\mysql\行锁死锁例2.jpg)
+![](./pic/mysql/行锁死锁例2.jpg)
 
 ### 解决方案2：
 
@@ -267,9 +267,9 @@ sql语句中不要使用太复杂的关联多表的查询；使用explain执行�
 
 # MySQL的体系架构
 
-![](.\pic\mysql\mysql体系架构1.jpg)
+![](./pic/mysql/mysql体系架构1.jpg)
 
-![](.\pic\mysql\mysql体系架构2.jpg)
+![](./pic/mysql/mysql体系架构2.jpg)
 
 # undo log、redo log、bin log的作用是什么
 
@@ -328,7 +328,7 @@ Redo Buffer持久化到redo log的策略，可通过Innodb_flush_log_at_trx_comm
 | 1（实时写，实时刷） | 事务每次提交都会将redo log buffer中的日志写入os buffer并调用fsync()刷到redo log file中。这种方式即使系统崩溃也不会丢失任何数据，但是因为每次提交都写入磁盘，IO的性能较差 |
 | 2（实时写，延时刷） | 每次提交都进写入到os buffer，然后是每秒调用fsync()将os buffer中的日志写入到redo log file |
 
-![](.\pic\mysql\redo log持久化策略.jpg)
+![](./pic/mysql/redo log持久化策略.jpg)
 
 一般建议选择取值2，因为MySQL挂了数据没有损失，整个服务器挂了才会损失1秒的事务提交数据
 
