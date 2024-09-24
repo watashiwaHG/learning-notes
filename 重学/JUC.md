@@ -24,11 +24,11 @@
 
 ## 操作系统中线程的状态
 
-![](.\pic\juc\操作系统中线程的状态.png)
+![](./pic/juc/操作系统中线程的状态.png)
 
 ### java中线程的状态
 
-![](E:\转正\学习\study note\重学\pic\juc\java中线程的状态.png)
+![](./pic/juc/java中线程的状态.png)
 
 ### 线程常用方法
 
