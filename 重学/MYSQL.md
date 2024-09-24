@@ -8,7 +8,7 @@
 
    **解析树**
 
-   ![](E:\转正\学习\study note\重学\pic\mysql\解析器.jpg)
+   ![](./pic/mysql/解析器.jpg)
 
 3. 预处理器
 
@@ -73,7 +73,7 @@ InnoDB主键使用的是聚簇索引，MyISAM不管是主键索引，还是二�
 
   InnoDB辅助索引，也叫做二级索引，是根据索引列构建B+Tree结构。但在B+Tree的叶子节点中只存了索引列和主键的信息。二级索引占用的空间会比聚簇索引小很多，通常创建辅助索引就是为了提升查询效率。一个表InnoDB只能创建一个聚簇索引，但可以创建多个辅助索引
 
-![](.\pic\mysql\聚簇索引.jpg)
+![](./pic/mysql/聚簇索引.jpg)
 
 ##### 聚簇索引的优点
 
@@ -93,7 +93,7 @@ InnoDB主键使用的是聚簇索引，MyISAM不管是主键索引，还是二�
 
 表数据存储在独立的地方，这两颗B+树的叶子节点都是用一个地址指向真正的表数据，对于表数据来说，这两个键没有任何差别。由于索引树是独立的，通过辅助键检索无需访问主键的索引树
 
-![](.\pic\mysql\非聚簇索引.jpg)
+![](./pic/mysql/非聚簇索引.jpg)
 
 ##### 非聚簇索引的优点
 
@@ -174,13 +174,13 @@ SELECT * FROM users WHERE user_name LIKE '张%' AND user_age = 10;
 
 图1：在(name, age)索引里面特意去掉了age的值，这个过程InnoDB并不会去看age的值，只是按顺序把”name第一个字是‘张’“的记录一条条取出来回表。因此需要回表4次
 
-![](.\pic\mysql\索引下推优化前.jpg)
+![](./pic/mysql/索引下推优化前.jpg)
 
 Mysql5.6引入了索引下推优化，可以在索引遍历过程中，对索引中包含的字段先做判断，过滤掉不符合条件的记录，减少回表字数
 
 图2：InnoDB在(name, age)索引内部就判断了age是否等于10，对于不等于10的记录，直接判断并跳过，减少回表次数
 
-![](.\pic\mysql\索引下推优化后.jpg)
+![](./pic/mysql/索引下推优化后.jpg)
 
 总结
 
@@ -196,13 +196,13 @@ Mysql5.6引入了索引下推优化，可以在索引遍历过程中，对索引
 2. hash索引底层的数据结构是散列表（hash表），其数据特点就是比较适合在内存中使用，自适应hash索引存在于InnoDB架构中的缓存中（不存在于磁盘架构中），见下面InnoDB架构图
 3. 自适应hash索引只适合搜索等值的查询，如select * from table where index_col = 'xxx'，而对于其他查找类型，如范围查找，是不能使用的
 
-![](.\pic\mysql\InnoDB内存结构.png)
+![](./pic/mysql/InnoDB内存结构.png)
 
 Adaptive Hash Index是针对B+树Search Path的优化，因此所有会涉及到Search Path的操作，均可使用此Hash索引进行优化
 
 根据索引键值(前缀)快速定位到叶子节点满足条件记录的Offset，减少了B+树Search Path的代价，将B+树从Root节点至Leaf节点的路径定位，优化为Hash Index的快速查询。
 
-![](.\pic\mysql\自适应hash索引.png)
+![](./pic/mysql/自适应hash索引.png)
 
 ### 为什么模糊搜索%在左边索引会失效
 
@@ -243,7 +243,7 @@ UUID的缺点：
 
 ##### 自增id的内部结构
 
-![](.\pic\mysql\自增id在索引中的结构.jpg)
+![](./pic/mysql/自增id在索引中的结构.jpg)
 
 自增的主键的值是顺序的，所以InnoDB把每一条记录都存储在一条记录的后面
 
@@ -255,7 +255,7 @@ UUID的缺点：
 
 插入UUID：新的记录可能会插入之前记录的中间，因此需要移动之前的记录
 
-![](.\pic\mysql\uuid在索引的结构.jpg)
+![](./pic/mysql/uuid在索引的结构.jpg)
 
 被写满已经刷新到磁盘上的页可能会被重新读取
 
@@ -278,7 +278,7 @@ Buffer Pool由**缓存数据页（Page）**和对缓存数据页进行描述的*
 
 Buffer Pool默认大小是128M，以Page页为单位，Page页默认大小16K，而控制块的大小约为数据页的5%，大概是800字节
 
-![](.\pic\mysql\Buffer Pool.jpg)
+![](./pic/mysql/Buffer Pool.jpg)
 
 >  加载一行数据，其实是将行数据所在页都读取进来
 
@@ -302,7 +302,7 @@ InnoDB特有，除索引以外，优化性能的第二选择
 
 Mysql中有一个哈希表数据结构，它使用表空间号 + 数据页号，作为一个key，然后缓存页对应的控制块为value
 
-![](.\pic\mysql\查找缓存页的HashMap.jpg)
+![](./pic/mysql/查找缓存页的HashMap.jpg)
 
 - 当需要访问某个页的数据时，先从哈希表中根据表空间号+页号看看是否存在对应的缓存页
 - 如果有，则直接使用；如果没有，就从free链表中选出一个空闲的缓冲页，然后把磁盘中对应的页加载到改缓存页的位置
@@ -319,7 +319,7 @@ Page根据状态可以分为三种类型：
 - clean page：被使用page，数据没有被修改过
 - dirty page：脏页，被使用page，数据被修改过，Page页中数据和磁盘的数据产生了不一定
 
-![](.\pic\mysql\数据页类型.png)
+![](./pic/mysql/数据页类型.png)
 
 Page页如何管理
 
@@ -330,7 +330,7 @@ Page页如何管理
    - free链表是把所有空闲的缓存页对应的控制块作为一个个的节点放到一个链表中，这个链表便称之为free链表
    - 基节点：free链表中只有一个基节点是不记录缓存页信息（单独申请空间），它里面就存放了free链表的头节点的地址，尾节点的地址，还有free链表里当前有多少个节点
 
-   ![](.\pic\mysql\free链表.jpg)
+   ![](./pic/mysql/free链表.jpg)
 
 2. flush list：表示需要刷新到磁盘的缓存区，管理dirty page，内部page按照修改时间排序
 
@@ -338,11 +338,11 @@ Page页如何管理
 
    - flush链表的结构与free链表的结构相似
 
-     ![](.\pic\mysql\flush链表.jpg)
+     ![](./pic/mysql/flush链表.jpg)
 
 3. lru list：表示正在使用的缓存区，管理clean page和dirty page，缓存区以midpoint为基点，前面链表称为new列表区，存放经常访问的数据，占63%；后面的链表成为old列表区，存放使用较少数据，占37%
 
-   ![](.\pic\mysql\lru链表.jpg)
+   ![](./pic/mysql/lru链表.jpg)
 
 ### Redo Log（物理日志）
 
