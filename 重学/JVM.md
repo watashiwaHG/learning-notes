@@ -24,7 +24,7 @@ Bootstrap类加载器由外部C++实现（在代码中获取Bootstrap类加载�
 
 类加载器从下往上查询是否已被加载，已加载则返回，从上往下判断是否能加载，能则加载返回
 
-![](.\pic\jvm\双亲委派.jpg)
+![](./pic/jvm/双亲委派.jpg)
 
 调用类加载器的loadClass方法加载类，加载类之前会先判断是否已经加载过（校验），没有加载过调用父类加载器的loadClass方法，如果都没有加载过则调用findClass方法去真正的加载类，一般自定义类加载器重写findClass方法来将.class文件加载到内存，然后交给defineClass方法，loadClass是按照双亲委派写好的代码
 
@@ -35,11 +35,11 @@ Bootstrap类加载器由外部C++实现（在代码中获取Bootstrap类加载�
 - 一个Tomcat程序中是可以运行多个Web应用的，如果这两个应用中出现了相同限定名的类，比如Servlet类，Tomcat要保证这两个类都能加载并且他们应该是不同的类
 - 如果不打破双亲委派机制，当应用类加载器加载Web应用1中的MyServlet之后，Web应用2中相同限定的MyServlet类就无法被加载了
 
-![](.\pic\jvm\Tomcat中双亲委派的问题.png)
+![](./pic/jvm/Tomcat中双亲委派的问题.png)
 
 Tomcat使用了自定义类加载器来实现应用之间类的隔离，每一个应用会有一个独立的类加载器加载对应的类
 
-![](.\pic\jvm\Tomcat中打破双亲委派方法.png)
+![](./pic/jvm/Tomcat中打破双亲委派方法.png)
 
 **阿里arthas不停机热部署**
 
@@ -47,7 +47,7 @@ Tomcat使用了自定义类加载器来实现应用之间类的隔离，每一�
 
 ## RuntimeDataArea
 
-![](.\pic\jvm\RuntimeDataArea.jpg)
+![](./pic/jvm/RuntimeDataArea.jpg)
 
 ### Method Area
 
@@ -77,7 +77,7 @@ Tomcat使用了自定义类加载器来实现应用之间类的隔离，每一�
 
 每个方法对应一个栈帧
 
-![](.\pic\jvm\栈帧.jpg)
+![](./pic/jvm/栈帧.jpg)
 
 - Local Variables
 
@@ -194,13 +194,13 @@ while(not end) {
 
 > 之前是JVM管理部分内存，如果IO过来数据，先放在操作系统内存中，再复制到JVM的内存中，效率低
 
-![](.\pic\jvm\各个区域与线程的关系.jpg)
+![](./pic/jvm/各个区域与线程的关系.jpg)
 
 ## GC（垃圾回收）
 
 根可达算法：解决循环依赖不会被回收，只有被根引用的对象才不会被回收
 
-![](.\pic\jvm\RootSearch.png)
+![](./pic/jvm/RootSearch.png)
 
 - 线程栈变量
 
@@ -282,11 +282,11 @@ Metaspace如果不设置就无上限（受限于物理内存，直接内存？�
 
 #### 堆内存逻辑分区
 
-![](.\pic\jvm\内存逻辑分区.jpg)
+![](./pic/jvm/内存逻辑分区.jpg)
 
 #### 一个对象从出生到消亡
 
-![](.\pic\jvm\一个对象从出生到消亡.png)
+![](./pic/jvm/一个对象从出生到消亡.png)
 
 先尝试在stack上分配，分配失败去Eden（伊甸园），GC后会反复在S1和S2移动，到一定年龄去Old（老年区）
 
@@ -320,7 +320,7 @@ Metaspace如果不设置就无上限（受限于物理内存，直接内存？�
 
 ### 常见的垃圾回收器
 
-![](.\pic\jvm\常见的垃圾回收器.jpg)
+![](./pic/jvm/常见的垃圾回收器.jpg)
 
 一般的组合：
 
@@ -350,7 +350,7 @@ Metaspace如果不设置就无上限（受限于物理内存，直接内存？�
 
 - serial
 
-![](.\pic\jvm\Serial.png)
+![](./pic/jvm/Serial.png)
 
 > 很久远的垃圾回收器
 
@@ -362,7 +362,7 @@ safe  poinit: 安全的将工作线程停下来，不是立即停止
 
 - serial old
 
-![](.\pic\jvm\Serial Old.jpg)
+![](./pic/jvm/Serial Old.jpg)
 
 基本同上
 
@@ -372,7 +372,7 @@ safe  poinit: 安全的将工作线程停下来，不是立即停止
 
 **Parallel Scavenge**
 
-![](.\pic\jvm\Parallel Scavenge.jpg)
+![](./pic/jvm/Parallel Scavenge.jpg)
 
 > java1.8默认的垃圾回收器
 
@@ -380,7 +380,7 @@ safe  poinit: 安全的将工作线程停下来，不是立即停止
 
 **Parallel Old**
 
-![](.\pic\jvm\Parallel Old.jpg)
+![](./pic/jvm/Parallel Old.jpg)
 
 基本同上
 
@@ -390,7 +390,7 @@ safe  poinit: 安全的将工作线程停下来，不是立即停止
 
 **ParNew**
 
-![](.\pic\jvm\ParNew.jpg)
+![](./pic/jvm/ParNew.jpg)
 
 和PS比较像，是PS的增强版，主要增强了和CMS共同使用的场景
 
@@ -400,7 +400,7 @@ concurrent mark sweep 并发标记清理
 
 > 主要为了解决STW时间过长的问题，里程碑式的垃圾回收，但问题比较多，貌似没有哪个版本的jdk默认垃圾回收器是他
 
-![](.\pic\jvm\CMS.jpg)
+![](./pic/jvm/CMS.jpg)
 
 - 初始标记
 
@@ -452,7 +452,7 @@ concurrent mark sweep 并发标记清理
 > 2. 空间整合（整体上属于“标记-整理”算法，不会导致空间碎片）
 > 3. 可预测的停顿（比CMS更先进的地方在于能让使用者明确指定一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒）
 
-![](.\pic\jvm\G1内存模型.jpg)
+![](./pic/jvm/G1内存模型.jpg)
 
 YGC：
 
@@ -578,7 +578,7 @@ java -Xmn10M -Xms40M -Xmx50M -XX:+PrintCommandLineFlags -XX:+PrintGC HelloGC
 
 CMS：
 
-![](.\pic\jvm\CMS-GC详情.png)
+![](./pic/jvm/CMS-GC详情.png)
 
 Initial Mark：初始标记
 
@@ -586,11 +586,11 @@ Final Mark：最终标记
 
 #### GC日志详解
 
-![](.\pic\jvm\GC日志格式.png)
+![](./pic/jvm/GC日志格式.png)
 
 GC日志中heap dump部分：
 
-![](.\pic\jvm\heap dump.jpg)
+![](./pic/jvm/heap dump.jpg)
 
 [0x00000000fec0000, 0x000000ff2a0000, 0x000000ff2a0000]
 
@@ -732,11 +732,11 @@ heapdump是诊断与JVM内存相关的问题的重要手段，例如：内存泄
   >
   > 
   >
-  > ![](.\pic\jvm\jvm调优案例-风险控制1.png)
+  > ![](./pic/jvm/jvm调优案例-风险控制1.png)
   >
-  > ![](.\pic\jvm\jvm调优案例-风险控制2.jpg)
+  > ![](./pic/jvm/jvm调优案例-风险控制2.jpg)
   >
-  > ![](.\pic\jvm\jvm调优案例-风险控制3.jpg)
+  > ![](./pic/jvm/jvm调优案例-风险控制3.jpg)
 
 - 系统内存飙高，如何查找问题？（面试高频）
 
@@ -800,7 +800,7 @@ heapdump是诊断与JVM内存相关的问题的重要手段，例如：内存泄
 
 ### 1. 对象的创建过程
 
-![](.\pic\jvm\对象的创建过程.png)
+![](./pic/jvm/对象的创建过程.png)
 
 如果.class没有加载到内存中，先加载到内存中，提取出类型信息，方法信息，字段信息存放在方法区，在堆中生成一个代表该类的Class对象，作为方法区这些数据的访问入口，校验.class文件格式，静态变量赋初始值0/null，final修饰的会直接赋值，
 
@@ -868,4 +868,4 @@ T t = new T();
 
 ### 4.对象分配
 
-![](.\pic\jvm\对象的分配.png)
+![](./pic/jvm/对象的分配.png)
