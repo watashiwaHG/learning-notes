@@ -225,11 +225,11 @@ private static int ctlOf(int rs, int wc) { return rs | wc; }
 
 ## 线程池状态的特点以及转变
 
-![](.\pic\juc\线程池状态转变.png)
+![](./pic/juc/线程池状态转变.png)
 
 ## 线程池execute完整执行流程图
 
-![](.\pic\juc\线程池execute完整执行流程图.jpg)
+![](./pic/juc/线程池execute完整执行流程图.jpg)
 
 ## ThreadPoolExecutor的addWorker方法
 
