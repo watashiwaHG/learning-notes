@@ -223,7 +223,7 @@ ThreadLocal内存泄漏问题：
 - 如果ThreadLocal引用丢失，key因为弱引用会被GC回收掉，如果同时线程还没有被回收，就会导致内存泄漏，内存中的value无法被回收，同时也无法获取到
 - 只需要在使用完毕ThreadLocal对象之后，及时的调用remove方法，移除Entry即可
 
-![](E:\转正\学习\study note\重学\pic\juc\ThreadLocalMap.png)
+![](./pic/juc/ThreadLocalMap.png)
 
 ### 可见性
 
@@ -439,7 +439,7 @@ synchronized是基于对象实现的
 
 对象填充
 
-![](E:\转正\学习\study note\重学\pic\juc\对象头.png)
+![](./pic/juc/对象头.png)
 
 MarkWord中标记着四种锁的信息：无锁、偏向锁、轻量级锁、重量级锁
 
@@ -469,11 +469,11 @@ MarkWord中标记着四种锁的信息：无锁、偏向锁、轻量级锁、重
 
 锁升级状态的转变：
 
-![](E:\转正\学习\study note\重学\pic\juc\锁升级.jpg)
+![](./pic/juc/锁升级.jpg)
 
 Lock Record和ObjectMonitor：
 
-![](E:\转正\学习\study note\重学\pic\juc\LockRecord和ObjectMonitor.jpg)
+![](./pic/juc/LockRecord和ObjectMonitor.jpg)
 
 #### 重量锁底层ObjectMonitor
 
