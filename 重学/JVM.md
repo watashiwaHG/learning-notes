@@ -362,7 +362,7 @@ safe  poinit: 安全的将工作线程停下来，不是立即停止
 
 - serial old
 
-![](./pic/jvm/Serial Old.jpg)
+![](./pic/jvm/Serial%20Old.jpg)
 
 基本同上
 
@@ -380,7 +380,7 @@ safe  poinit: 安全的将工作线程停下来，不是立即停止
 
 **Parallel Old**
 
-![](./pic/jvm/Parallel Old.jpg)
+![](./pic/jvm/Parallel%20Old.jpg)
 
 基本同上
 
@@ -590,7 +590,7 @@ Final Mark：最终标记
 
 GC日志中heap dump部分：
 
-![](./pic/jvm/heap dump.jpg)
+![](./pic/jvm/heap%20dump.jpg)
 
 [0x00000000fec0000, 0x000000ff2a0000, 0x000000ff2a0000]
 
