@@ -38,7 +38,7 @@ SpringBoot在启动的过程中，
 
 # 如果要对属性文件中账号密码进行解密如何实现
 
-![](E:\转正\学习\study note\重学\pic\spring\密码解密.jpg)
+![](./pic/spring/密码解密.jpg)
 
 实现EnvironmentPostProcessor接口的postProcessEnvironment方法可能拿到配置文件的信息，对密码字段进行解密就可以
 
