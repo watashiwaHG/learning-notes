@@ -124,7 +124,7 @@ A依赖于B，B依赖于A，创建对象时会无限创建下去
 
 # Spring中的循环依赖问题
 
-![](.\pic\spring\spring中循环依赖.jpg)
+![](./pic/spring/spring中循环依赖.jpg)
 
 # Spring中是如何检测构造注入的循环依赖问题的
 
@@ -153,11 +153,11 @@ protected boolean isPrototypeCurrentlyInCreation(String beanName) {
 
 # Spring的Bean的生命周期
 
-![](.\pic\spring\bean完整生命周期.jpg)
+![](./pic/spring/bean完整生命周期.jpg)
 
 https://www.bilibili.com/video/BV1584y1r7n6/?spm_id_from=333.337.search-card.all.click&vd_source=584c7c5c42e674dab0341bef94cd689a
 
-![](.\pic\spring\bean的完整周期2.jpg)
+![](./pic/spring/bean的完整周期2.jpg)
 
 - 初始化容器ApplicationContext，初始化内部BeanFactory，loadBeanDefinitions通过Xml或PropertiesBeanDefinitionReader或者注解读取，存放到beanDefinitionMap中
 - 注解方式加载bean是靠BeanFactoryPostProcessor的子类BeanDefinitionRegisterPostProcessor的子类ConfigurationClassPostProcessor中的parser.parse方法做的（扩展性强，注解后出的，不是直接改的解析文件）
@@ -175,11 +175,11 @@ https://www.bilibili.com/video/BV1584y1r7n6/?spm_id_from=333.337.search-card.all
 
 # Spring的三级缓存在生命周期的位置
 
-![](.\pic\spring\bean的生命周期.jpg)
+![](./pic/spring/bean的生命周期.jpg)
 
 # 三级缓存的作用
 
-<img src=".\pic\spring\三级缓存.jpg" style="zoom:200%;" />
+<img src="./pic/spring/三级缓存.jpg" style="zoom:200%;" />
 
 A -> B -> A
 
