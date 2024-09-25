@@ -1,6 +1,6 @@
 # MyBatis执行器
 
-![](.\pic\mybatis\执行器.jpg)
+![](./pic/mybatis/执行器.jpg)
 
 SqlSession中包含一个executor来实现真正的对数据库操作的功能，这个executor是CachingExecutor，构造函数传入BaseExecutor，实现二级缓存的功能，如果开启了二级缓存并且缓存存在，则返回缓存，否则调用传入的BaseExecutor相关的方法，BaseExecutor实现了一级缓存和获取连接的功能，首先执行query方法查看一级缓存中是否存在，存在则返回，否则执行子类的doQuery方法，从数据库中查询，查询到后放入一级缓存和二级缓存
 
@@ -16,7 +16,7 @@ SqlSession中包含一个executor来实现真正的对数据库操作的功能�
 
 **一级缓存命中场景**
 
-![](.\pic\mybatis\一级缓存命中.jpg)
+![](./pic/mybatis/一级缓存命中.jpg)
 
 手动清空缓存包括clearCache，commit，rollback，@Optional(flushCache=true)、@Update修饰的方法和update方法执行后会自动清除缓存，修改配置文件中的setting的localCacheScope=STATEMENT，是把一级缓存的作用域缩小为STATEMENT，也就是同一个查询语句的嵌套查询会用到一级缓存，而不是把一级缓存直接关闭了，只是每次查询完之后会清空缓存
 
@@ -24,17 +24,17 @@ SqlSession中包含一个executor来实现真正的对数据库操作的功能�
 
 **二级缓存扩展性需求**
 
-![](.\pic\mybatis\二级缓存扩展性需求.png)
+![](./pic/mybatis/二级缓存扩展性需求.png)
 
 **二级缓存实现**
 
-![](.\pic\mybatis\二级缓存实现方式.png)
+![](./pic/mybatis/二级缓存实现方式.png)
 
 定义了一个Cache接口，里面定义了缓存的存储、获取、大小等方法，针对每一个扩展功能，通过一个实现类来实现，再通过装饰者和责任链的方式进行功能组合，每个Cache中含有一个delegater，执行的过程中调用一个又一个的delegater
 
 **二级缓存命中场景**
 
-![](.\pic\mybatis\二级缓存命中场景.png)
+![](./pic/mybatis/二级缓存命中场景.png)
 
 - 二级缓存只有提交了之后（不包含自动提交）才能生效
 
@@ -46,7 +46,7 @@ SqlSession中包含一个executor来实现真正的对数据库操作的功能�
 
 **二级缓存执行流程**
 
-![](.\pic\mybatis\二级缓存执行流程.png)
+![](./pic/mybatis/二级缓存执行流程.png)
 
 - 查询的时候是去二级缓存中查询，而填充和清空都需要等到提交之后才会更新二级缓存区，暂存区中只记录提交之后要对二级缓存做的修改，并不当作查询数据被查出
 
@@ -54,37 +54,37 @@ SqlSession中包含一个executor来实现真正的对数据库操作的功能�
 
 ## Mybatis自己的执行流程
 
-![](.\pic\mybatis\Mybatis执行流程.png)
+![](./pic/mybatis/Mybatis执行流程.png)
 
 执行mapper的方法后，进入到mapper的动态代理类，使用反射交给SQLSession（DefaultSqlSession）来处理，SQLSession再交给Executor去执行
 
 ## 整合到Spring中后Mybatis的执行流程
 
-![](.\pic\mybatis\Spring中Mybatis执行流程.png)
+![](./pic/mybatis/Spring中Mybatis执行流程.png)
 
 执行mapper的方法后，依然走Mybatis的Mapper的动态代理类，使用反射交给SqlSession（SqlSessionTemplate）来处理，SqlSessionTemplate也是一个实现了SqlSession接口的类，但是本身没有真正的处理功能，是交给内部的SqlSessionProxy（SqlSession）来处理的，SqlSessionProxy是一个动态代理类，在SqlSessionInterceptor类中方法里，才会从SqlSessionFactory真正的获取SqlSession来处理，如果开启了事务，将会把第一次获取的SqlSession放入ThreadLocal中，后面的执行语句依然从ThreadLocal中获取SqlSession，这样一级缓存或者事务的功能都能生效（事务和一级缓存是绑定线程的），如果没有开启事务，则每次会把存入ThreadLocal的SqlSession清空，导致后面每次的执行的语句都需要重新从SqlSessionFactory中再获取一次SqlSession
 
 # StatementHandler
 
-![](.\pic\mybatis\statementhandler.png)
+![](./pic/mybatis/statementhandler.png)
 
 声明Statement、填充参数、执行都是通过StatementHandler实现的，一次语句执行就会有一个StatementHandler来实现，由StatementHandler来判断是否要重用Statement
 
 **StatementHandler实现类**
 
-![](.\pic\mybatis\StatementHandler的实现类.png)
+![](./pic/mybatis/StatementHandler的实现类.png)
 
 **StatementHandler执行流程**
 
-![](.\pic\mybatis\StatementHandler执行流程.png)
+![](./pic/mybatis/StatementHandler执行流程.png)
 
 ## ParameterHandler
 
-![](.\pic\mybatis\参数处理.png)
+![](./pic/mybatis/参数处理.png)
 
 ## ResultSetHandler
 
-![](.\pic\mybatis\结果集处理.png)
+![](./pic/mybatis/结果集处理.png)
 
 # 谈谈你对Mybatis的理解
 
