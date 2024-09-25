@@ -23,7 +23,7 @@ data = recv(c) // 接收client发送的数据
 
 recv就是阻塞方法，执行到要等待数据到达
 
-![](.\pic\redis\IO阻塞.jpg)
+![](./pic/redis/IO阻塞.jpg)
 
 # I/O多路复用
 
@@ -39,13 +39,13 @@ Redis利用I/O多路复用来实现网络通信
 4. 当数据到达时，select被激活，select函数返回
 5. 用户线程发起read请求，读取数据并继续执行
 
-![](.\pic\redis\IO多路复用简易.jpg)
+![](./pic/redis/IO多路复用简易.jpg)
 
 ## Reactor设计模式
 
 IO多路复用模型使用Reactor设计模式实现
 
-![](.\pic\redis\Reactor设计模式.png)
+![](./pic/redis/Reactor设计模式.png)
 
 - Handle（事件载体）
 
@@ -74,11 +74,11 @@ IO多路复用模型使用Reactor设计模式实现
 5. Reactor会触发事件处理器的回调方法。当事件发生时，Reactor会将被一个“key”（表示一个激活的handle）定位和分发给特定的Event Handler的回调方法
 6. Reactor调用特定的Concrete Event Handler的回调方法来响应其关联的handle上发生的事件
 
-![](.\pic\redis\Reactor工作原理简易图.jpg)
+![](./pic/redis/Reactor工作原理简易图.jpg)
 
 时序图：
 
-![](.\pic\redis\Reactor时序图.jpg)
+![](./pic/redis/Reactor时序图.jpg)
 
 ## select
 
@@ -86,7 +86,7 @@ select模式是I/O多路复用模式的一种早期实现。也是支持操作�
 
 ### 工作模式
 
-![](.\pic\redis\select工作模式.jpg)
+![](./pic/redis/select工作模式.jpg)
 
 ### 工作流程
 
@@ -96,9 +96,9 @@ select模式是I/O多路复用模式的一种早期实现。也是支持操作�
 4. 如果发现了有对应的fd有读写事件后，内核会把fd_set里没有事件状态的fd句柄清除，然后把事件的fd返回给应用进程（这里又会把fd_set从内核空间复制到用户空间）
 5. 最后应用进程收到了select返回的活跃事件类型的fd句柄后，再向对应的fd发起数据读取或者写入数据操作
 
-![](.\pic\redis\select工作流程.jpg)
+![](./pic/redis/select工作流程.jpg)
 
-![](.\pic\redis\select函数例子.jpg)
+![](./pic/redis/select函数例子.jpg)
 
 - 传rset给select函数告诉需要监听的fd，rset是一个bitmap，索引表示fd的编号，1表示需要监听的fd
 - 第一个参数表示监听bitmap中索引范围在max + 1以内的fd，max为之前fd编号中最大的编号，后面的参数代表监听fd的读，写，异常和超时时间
@@ -118,7 +118,7 @@ select模式是I/O多路复用模式的一种早期实现。也是支持操作�
 
 ## poll
 
-![](.\pic\redis\poll例子.jpg)
+![](./pic/redis/poll例子.jpg)
 
 - 定义了一种数据结构pollfd，fd为fd编号，events表示监听的事件，多个事件用或（写 或 读），revents表示哪个事件可以被处理了
 - poll函数传入pollfd数组，fd的个数，超时时间
@@ -131,14 +131,14 @@ select模式是I/O多路复用模式的一种早期实现。也是支持操作�
 
 对select的优化
 
-![](.\pic\redis\epoll例子.jpg)
+![](./pic/redis/epoll例子.jpg)
 
 - 调用epoll_create创建epfd，参数没意义，但是传0会报错，返回的是epoll实例的fd编号
 - epoll_ctl函数向epfd中添加epoll_event，第二个参数为操作类型，第三个参数为fd编号，第四个参数为epoll_event，epoll_event中含有fd编号和需要监听的事件类型events，添加的epoll_event会放到红黑树上
 - epoll_wait是真正的获取可操作的fd，第一个参数是epoll实例的fd编号，events使用户分配好的数组，内核会把event复制到events（用户态和内核态会共享？没有复制的步骤），第三个参数是本次可以返回的最大时间数目，第四个参数等待时间
 - 调用epoll_wait如果双向链表不为空，则直接返回就绪的fd，否则会被放到阻塞队列中阻塞，有数据的fd会调用回调函数放到双向链表中，赋值到events的前面，返回值为几个fd有数据了，所以只需要遍历有限个events前面的epoll_event就能进行操作
 
-![](.\pic\redis\epoll图.png)
+![](./pic/redis/epoll图.png)
 
 # Redis主从复制原理
 
@@ -146,7 +146,7 @@ select模式是I/O多路复用模式的一种早期实现。也是支持操作�
 
 ## 全量同步
 
-![](.\pic\redis\主从复制.png)
+![](./pic/redis/主从复制.png)
 
 1. slave服务器连接到master服务器，便开始进行数据同步，发送psync命令（Redis2.8之前是sync命令）
 
