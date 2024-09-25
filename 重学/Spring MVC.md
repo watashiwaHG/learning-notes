@@ -90,7 +90,7 @@ DispatcherServlet ---> 接收请求 ---> path，request parameters ---> path ---
    mappedHandler.triggerAfterCompletion(request, response, ex);
    ```
 
-![](.\pic\spring mvc\spring mvc执行流程.png)
+![](./pic/spring mvc/spring mvc执行流程.png)
 
 # handler是什么
 
