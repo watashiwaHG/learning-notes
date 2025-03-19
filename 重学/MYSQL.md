@@ -278,7 +278,7 @@ Buffer Pool由**缓存数据页（Page）**和对缓存数据页进行描述的*
 
 Buffer Pool默认大小是128M，以Page页为单位，Page页默认大小16K，而控制块的大小约为数据页的5%，大概是800字节
 
-![](./pic/mysql/BufferPool.jpg)
+![](./pic/mysql/Buffer%20Pool.jpg)
 
 >  加载一行数据，其实是将行数据所在页都读取进来
 
