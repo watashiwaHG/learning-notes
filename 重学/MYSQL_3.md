@@ -326,7 +326,7 @@ InnoDB规定一页至少存储两条记录（B+树特点），如果页中只能
 
 InnoDB存储引擎提供了两种事务日志：redo log（重做日志）和undo log（回滚日志）。其中redo log用于保证事务持久性，undo log则是事务的原子性和隔离性实现的基础
 
-![](./pic/mysql/redo log和undo log.png)
+![](./pic/mysql/redo%20log和undo%20log.png)
 
 每写一个事务，都会修改Buffer Pool，从而产生相应的Redo/Undo日志：
 
