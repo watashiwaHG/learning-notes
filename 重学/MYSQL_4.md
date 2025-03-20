@@ -153,11 +153,11 @@ MVCC（Multi Version Concurrent Control）被称为多版本并发控制，是�
 
    举例：事务T-100和T-120对表中id = 1的数据行做update操作，事务T-130进行select操作，即使T-100已经提交修改，三次select语句的结果都是“lisi”
 
-   ![](./pic/mysql/uodo log例子.jpg)
+   ![](./pic/mysql/uodo%20log例子.jpg)
 
    - 每一条数据都有多个版本，版本之间通过undo log链条进行连接
 
-   ![](./pic/mysql/undo log例子2.jpg)
+   ![](./pic/mysql/undo%20log例子2.jpg)
 
 3. Read View
 
