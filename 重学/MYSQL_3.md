@@ -472,7 +472,7 @@ RC和RR隔离级别都是由MVCC实现，区别在于：
 - GapLock锁：间隙锁，锁定索引记录间隙（不包括记录本身），确保索引记录的间隙不变。（范围锁，RR隔离级别支持）
 - Next-key Lock锁：记录锁和间隙锁组合，同时锁住数据，并且锁住数据前后范围（记录锁+范围锁，RR隔离级别支持）
 
-![](./pic/mysql/Next-key lock.jpg)
+![](./pic/mysql/Next-key%20lock.jpg)
 
 ## 总结
 
