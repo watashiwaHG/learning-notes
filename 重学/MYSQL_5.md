@@ -11,7 +11,7 @@
 
   - redo log文件内容是以顺序循环的方式写入文件，写满时则回溯到第一个文件，进行覆盖写
 
-    ![](./pic/mysql/redo log覆盖写.jpg)
+    ![](./pic/mysql/redo%20log覆盖写.jpg)
 
     - write pos：表时日志当前记录的位置，当ib_logfile_4写满后，会从ib_logfile_1从头开始记录
     - check point：表示将日志记录的修改写进磁盘，完成数据落盘，数据落盘后checkpoint会将日志上的相关记录擦除掉，即write pos -> checkpoint之间的部分
