@@ -38,7 +38,7 @@ binlog日志有三种模式
   - 优点：日志量小，减少磁盘IO，提升存储和恢复速度
   - 缺点：在某些情况下会导致主从数据不一致，比如last_insert_id()、now()函数
 
-  ![](./pic/mysql/bin log日志格式.jpg)
+  ![](./pic/mysql/bin%20log日志格式.jpg)
 
 - MIXED（mixed-based replication，MBR）：以上两种模式的混合使用，一般会使用STATEMENT模式保存binlog，对于STATEMENT模式无法复制的操作使用ROW模式保存binlog，MySQL会根据执行的sql语句选择写入模式
 
